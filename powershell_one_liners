@@ -28,6 +28,7 @@ RwBlAHQALQBDAGgAaQBsAGQASQB0AGUAbQAgAC0AUgBlAGMAdQByAHMAZQAgAC0ARgBpAGwAdABlAHIA
 
 
 #encode string to base64 function
+~~ Do not use these to encode commands for powershell.exe -encodedcommand use
 
 function stringtobase64($thestring){[System.Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes("$thestring"))}
 
